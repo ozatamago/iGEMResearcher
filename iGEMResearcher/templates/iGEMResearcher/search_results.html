@@ -1,0 +1,106 @@
+<form method="get" action="{% url 'search_teams' %}">
+    <!-- User Question Input -->
+    <div style="margin-bottom: 20px;">
+        <input type="text" name="user_question" placeholder="Ask a question" style="width: 100%; padding: 10px; font-size: 1.2em;">
+    </div>
+
+    <!-- Team Query -->
+    <input type="text" name="team_query" placeholder="Search by team">
+    
+    <!-- Description Query -->
+    <input type="text" name="description_query" placeholder="Search by description">
+    
+    <!-- Region Selection -->
+    <select name="region">
+        <option value="">Select Region</option>
+        <option value="africa">Africa</option>
+        <option value="latin-america">Latin America</option>
+        <option value="asia">Asia</option>
+        <option value="europe">Europe</option>
+        <option value="north-america">North America</option>
+    </select>
+
+    <!-- Track Selection -->
+    <select name="track">
+        <option value="">Select Track</option>
+        <option value="Agriculture">Agriculture</option>
+        <option value="Biomanufacturing">Biomanufacturing</option>
+        <option value="Bioremediation">Bioremediation</option>
+        <option value="Climate Crisis">Climate Crisis</option>
+        <option value="Diagnostics">Diagnostics</option>
+        <option value="Environment">Environment</option>
+        <option value="High School">High School</option>
+        <option value="Software & AI">Software & AI</option>
+        <option value="Therapeutics">Therapeutics</option>
+    </select>
+
+    <!-- Year Selection -->
+    <select name="year">
+        <option value="">Select Year</option>
+        {% for year in years %}
+        <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+    </select>
+    
+
+    <!-- Kind Selection -->
+    <select name="kind">
+        <option value="">Select Kind</option>
+        <option value="high-school">High School</option>
+        <option value="commercial">Commercial</option>
+        <option value="community-lab">Community Lab</option>
+        <option value="collegiate">Collegiate</option>
+    </select>
+
+    <!-- Section Selection -->
+    <select name="section">
+        <option value="">Select Section</option>
+        <option value="undergrad">Undergrad</option>
+        <option value="overgrad">Overgrad</option>
+        <option value="collegiate">Collegiate</option>
+        <option value="high-school">High School</option>
+    </select>
+
+    <!-- Submit Button -->
+    <button type="submit">Search</button>
+</form>
+
+<!-- User Question Display -->
+{% if user_question %}
+    <div>
+        <h2>Your Question:</h2>
+        <p>{{ user_question }}</p>
+    </div>
+{% endif %}
+
+<!-- 質問に対する回答の表示 -->
+{% if answer %}
+    <div>
+        <h2>Answer:</h2>
+        <p>{{ answer }}</p>
+    </div>
+{% endif %}
+
+<!-- Results Display -->
+{% for team in teams %}
+    {% if team.metadata %}
+    <div>
+        <h2>{{ team.metadata.team }}</h2>
+        <p>Wiki: <a href="{{ team.metadata.wiki }}">{{ team.metadata.wiki }}</a></p>
+        <p>Year: {{ team.metadata.year }}</p>
+        <p>Track: {{ team.metadata.track }}</p>
+        <p>Summary: {{ team.metadata.summary }}</p>
+        <p>Description: {{ team.metadata.description }}</p>
+    </div>
+    {% else %}
+    <div>
+        <h2>{{ team.team }}</h2>
+        <p>Wiki: <a href="{{ team.wiki }}">{{ team.wiki }}</a></p>
+        <p>Year: {{ team.year }}</p>
+        <p>Track: {{ team.track }}</p>
+        <p>Summary: {{ team.summary }}</p>
+        <p>Description: {{ team.description }}</p>
+    </div>
+    {% endif %}
+{% endfor %}
+
